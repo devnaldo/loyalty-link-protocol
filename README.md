@@ -41,3 +41,67 @@ Finternet-Native Alignment: We are not trying to be a complex, multi-chain rewar
 Focus on Radical Simplicity: Our primary customer is the non-technical small business owner. Our success is measured by how quickly a bakery owner can launch their own token. We are building the "Shopify for Loyalty," not a complex DeFi protocol. This focus on a simple, intuitive user experience is our key differentiator.
 
 Open & Composible Protocol: LoyaltyLink is not just an app; it's a foundational protocol. We are creating open-source building blocks that other developers can integrate. Imagine a Point-of-Sale system like Square building LoyaltyLink directly into their checkout, or a web3 game allowing players to earn real-world PizzaPoints. Our open approach fosters an ecosystem, rather than just building a single product.
+
+## 5. Core Technology & Architecture
+We are leveraging a modern, robust, and scalable tech stack to bring LoyaltyLink to life. Our architectural choices prioritize security, user experience, and developer-friendliness.
+
+Blockchain: Solana. Chosen for its high throughput (65,000+ TPS), sub-second finality, and extremely low transaction fees (~$0.00025). These features are essential for handling the high volume of micro-transactions (earning/swapping points) that a successful loyalty ecosystem requires.
+
+Smart Contracts: Rust & The Anchor Framework. We will write our on-chain programs in Rust for maximum performance and security. The Anchor framework will be used to abstract away boilerplate code, allowing for faster, safer, and more auditable development of our Solana programs.
+
+Token Standard: Solana Program Library (SPL) Token. We will not reinvent the wheel. Each merchant's loyalty point will be a standard SPL Token. This ensures immediate compatibility with all existing Solana wallets (Phantom, Solflare, etc.) and infrastructure.
+
+Frontend dApp: Next.js / React. A modern web framework will be used to build our user-facing applications (the Merchant Portal and the consumer-facing Marketplace). This allows for a fast, responsive, and mobile-first user experience.
+
+Deployment: The on-chain programs will be deployed to Solana Devnet for prototyping and testing, followed by a full audit before Mainnet Beta launch. The web applications will be hosted on Vercel/Netlify for global scalability and continuous deployment.
+
+## 6. Project Roadmap & Grant Milestones
+We have a clear, milestone-driven plan to execute our vision. The requested grant of $5,000 USDC will be instrumental in accelerating our progress through these initial phases.
+
+Phase 1: Foundation & Prototype (Complete)
+
+[x] Ideation and strategic alignment with Finternet RFPs.
+
+[x] Core protocol architecture and technical design.
+
+[x] Creation of this public design document and GitHub repository.
+
+Phase 2: MVP & Audit (Target for Grant Funding - 8 Weeks)
+
+Milestone 1: Functional MVP on Devnet (Weeks 1-3)
+
+Develop and deploy the core Solana program:
+
+Function for merchants to create their unique SPL loyalty token.
+
+Function for merchants to distribute (airdrop) tokens to user wallets.
+
+Develop the basic Merchant Portal dApp to interact with the program.
+
+Deliverable: A live, working prototype on Solana's Devnet that can be publicly tested.
+
+Milestone 2: Professional Smart Contract Audit (Weeks 4-6)
+
+Engage a reputable third-party Solana audit firm.
+
+Submit the core on-chain program for a full security audit.
+
+Deliverable: A public audit report and implementation of all critical feedback. (Utilizes $2,500 of grant funding).
+
+Milestone 3: Enhanced UI & User-Facing dApp (Weeks 7-8)
+
+Develop the initial version of the consumer-facing dApp where users can view their consolidated loyalty point balances.
+
+Refine the Merchant Portal UI/UX based on initial feedback.
+
+Deliverable: A polished and intuitive user interface for both merchants and consumers. (Utilizes $1,500 of grant funding).
+
+Phase 3: Mainnet Beta & Community Growth (Post-Grant)
+
+Launch the audited protocol on Solana Mainnet.
+
+Onboard our first 5-10 beta merchant partners.
+
+Implement the initial version of the point-swapping mechanism.
+
+Begin community-building initiatives and gather user feedback for V2. (Utilizes $1,000 of grant funding for Devnet incentives).
