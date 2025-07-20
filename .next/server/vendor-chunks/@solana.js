@@ -173,17 +173,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "(ssr)/./node_modules/@solana/wallet-adapter-base/lib/esm/types.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@solana/wallet-adapter-base/lib/esm/types.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   WalletAdapterNetwork: () => (/* binding */ WalletAdapterNetwork)\n/* harmony export */ });\nvar WalletAdapterNetwork;\n(function (WalletAdapterNetwork) {\n    WalletAdapterNetwork[\"Mainnet\"] = \"mainnet-beta\";\n    WalletAdapterNetwork[\"Testnet\"] = \"testnet\";\n    WalletAdapterNetwork[\"Devnet\"] = \"devnet\";\n})(WalletAdapterNetwork || (WalletAdapterNetwork = {}));\n//# sourceMappingURL=types.js.map//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9ub2RlX21vZHVsZXMvQHNvbGFuYS93YWxsZXQtYWRhcHRlci1iYXNlL2xpYi9lc20vdHlwZXMuanMiLCJtYXBwaW5ncyI6Ijs7OztBQUFPO0FBQ1A7QUFDQTtBQUNBO0FBQ0E7QUFDQSxDQUFDLG9EQUFvRDtBQUNyRCIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL25vZGVfbW9kdWxlcy9Ac29sYW5hL3dhbGxldC1hZGFwdGVyLWJhc2UvbGliL2VzbS90eXBlcy5qcz8yNWU3Il0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCB2YXIgV2FsbGV0QWRhcHRlck5ldHdvcms7XG4oZnVuY3Rpb24gKFdhbGxldEFkYXB0ZXJOZXR3b3JrKSB7XG4gICAgV2FsbGV0QWRhcHRlck5ldHdvcmtbXCJNYWlubmV0XCJdID0gXCJtYWlubmV0LWJldGFcIjtcbiAgICBXYWxsZXRBZGFwdGVyTmV0d29ya1tcIlRlc3RuZXRcIl0gPSBcInRlc3RuZXRcIjtcbiAgICBXYWxsZXRBZGFwdGVyTmV0d29ya1tcIkRldm5ldFwiXSA9IFwiZGV2bmV0XCI7XG59KShXYWxsZXRBZGFwdGVyTmV0d29yayB8fCAoV2FsbGV0QWRhcHRlck5ldHdvcmsgPSB7fSkpO1xuLy8jIHNvdXJjZU1hcHBpbmdVUkw9dHlwZXMuanMubWFwIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(ssr)/./node_modules/@solana/wallet-adapter-base/lib/esm/types.js\n");
-
-/***/ }),
-
 /***/ "(ssr)/./node_modules/@solana/wallet-adapter-phantom/lib/esm/adapter.js":
 /*!************************************************************************!*\
   !*** ./node_modules/@solana/wallet-adapter-phantom/lib/esm/adapter.js ***!

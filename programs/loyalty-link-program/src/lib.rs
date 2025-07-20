@@ -1,6 +1,8 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{mint_to, MintTo, Mint, Token, TokenAccount};
 
+// IMPORTANT: You must replace this placeholder with the correct Program ID
+// from your Anchor.toml file.
 declare_id!("89cWonsoo2S31h8EuWCeqGQZ5GuE2wQ3MQqtJMr9X7Cn");
 
 #[program]
