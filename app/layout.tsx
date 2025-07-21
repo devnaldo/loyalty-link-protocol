@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ClientWalletProvider from "./WalletProvider"; // This imports the component from your file
+import ClientWalletProvider from "./WalletProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {

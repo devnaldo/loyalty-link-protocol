@@ -1,18 +1,134 @@
-/* A simple CSS reset to ensure consistency across browsers */
-body,
-html {
+/* Reset and Base Styles */
+body, html {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  background-color: #f0f2f5;
-  color: #1c1e21;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  line-height: 1.6;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Main Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.header-logo h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1a202c;
+}
+
+/* Main Content Styles */
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 2rem;
+}
+
+/* Card Styles */
+.card {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: #1a202c;
+}
+
+.card p {
+  margin-bottom: 1.5rem;
+  color: #718096;
+}
+
+/* Action Section */
+.action-section {
+  margin-top: 1rem;
+}
+
+.action-button {
+  background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
+}
+
+.action-button:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.connect-prompt {
+  font-style: italic;
+  color: #a0aec0;
+}
+
+/* Success Message */
+.success-message {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f0fff4;
+  border: 1px solid #9ae6b4;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.success-message p {
+  margin: 0.5rem 0;
+  color: #2f855a;
+}
+
+.success-message .address-text {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #e6fffa;
+  padding: 0.5rem;
+  border-radius: 4px;
+  word-break: break-all;
+  color: #2c5282;
+}
+
+.success-message a {
+  color: #3182ce;
+  text-decoration: underline;
+  font-weight: 600;
 }
