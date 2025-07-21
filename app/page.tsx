@@ -8,7 +8,7 @@ import { Transaction, SystemProgram } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import sha256 from "js-sha256";
 
-// The address of our deployed program.
+// The address of our deployed LoyaltyLink Protocol program.
 const programId = new web3.PublicKey("8V6oDMwNGK694Gw9VpDaLtVpjpeqDoWG5Bci1vhygPCw");
 
 export default function Home() {
@@ -36,8 +36,6 @@ export default function Home() {
 
     try {
       const newMint = web3.Keypair.generate();
-
-      // Manually build the instruction to bypass the buggy Anchor library functions.
       const instructionName = "create_loyalty_mint";
       const discriminator = Buffer.from(sha256.digest(`global:${instructionName}`)).slice(0, 8);
 
@@ -60,12 +58,8 @@ export default function Home() {
       }).add(instruction);
       
       transaction.partialSign(newMint);
-
       const signedTransaction = await wallet.signTransaction(transaction);
-
-      const signature = await connection.sendRawTransaction(
-        signedTransaction.serialize()
-      );
+      const signature = await connection.sendRawTransaction(signedTransaction.serialize());
 
       await connection.confirmTransaction({
         blockhash: latestBlockhash.blockhash,
@@ -88,7 +82,7 @@ export default function Home() {
     <div className="container">
       <header className="header">
         <div className="header-logo">
-          <h1>LoyaltyLink</h1>
+          <h1>SolRewards</h1>
         </div>
         <div className="header-wallet">
           {isClient && <WalletMultiButton />}
@@ -97,8 +91,8 @@ export default function Home() {
 
       <main className="main-content">
         <div className="card">
-          <h2>Merchant Portal</h2>
-          <p>Create and manage your loyalty program on Solana.</p>
+          <h2>Launch Your Tokenized Loyalty Program</h2>
+          <p>Create a unique rewards token for your brand on Solana, powered by the LoyaltyLink Protocol.</p>
 
           {wallet.publicKey ? (
             <div className="action-section">
@@ -107,12 +101,12 @@ export default function Home() {
                 disabled={isLoading}
                 className="action-button"
               >
-                {isLoading ? "Creating..." : "🚀 Create New Loyalty Program"}
+                {isLoading ? "Creating..." : "🚀 Create Your Rewards Token"}
               </button>
               {mintAddress && (
                 <div className="success-message">
                   <p>✅ Success!</p>
-                  <p><strong>New Mint Address:</strong></p>
+                  <p><strong>Your New Rewards Token Address:</strong></p>
                   <p className="address-text">{mintAddress}</p>
                   <p><strong>Transaction:</strong> <a href={`https://explorer.solana.com/tx/${txSignature}?cluster=devnet`} target="_blank" rel="noopener noreferrer">View on Explorer</a></p>
                 </div>

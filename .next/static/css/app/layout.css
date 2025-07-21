@@ -1,3 +1,206 @@
+/*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --solana-purple: #9945FF;
+  --solana-green: #14F195;
+  --background-start-rgb: 2, 0, 36;
+  --background-end-rgb: 13, 12, 41;
+  --text-primary: #FFFFFF;
+  --text-secondary: #a0aec0;
+  --card-background: rgba(26, 26, 42, 0.8);
+  --card-border: rgba(255, 255, 255, 0.1);
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg, rgb(var(--background-start-rgb)) 0%, rgb(var(--background-end-rgb)) 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scrollbars during animations */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Main Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  background-color: transparent;
+  width: 100%;
+}
+
+.header-logo h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--solana-purple), var(--solana-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.3s ease;
+}
+
+.header-logo h1:hover {
+    transform: scale(1.05);
+}
+
+/* Main Content Styles */
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 2rem;
+}
+
+/* Card Styles */
+.card {
+  background-color: var(--card-background);
+  padding: 2.5rem 3rem;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+  animation: fadeInUp 0.8s 0.2s ease-out forwards; /* Added a slight delay */
+  opacity: 0; /* Start hidden for animation */
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 2.25rem;
+  color: var(--text-primary);
+}
+
+.card p {
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+}
+
+/* Action Button */
+.action-button {
+  background: linear-gradient(90deg, var(--solana-purple), var(--solana-green));
+  color: black;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(153, 69, 255, 0.4);
+}
+
+.action-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(20, 241, 149, 0.5);
+}
+
+.action-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 15px rgba(20, 241, 149, 0.4);
+}
+
+.action-button:disabled {
+  background: #4a5568;
+  color: #a0aec0;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.connect-prompt {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* Success Message */
+.success-message {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(20, 241, 149, 0.1);
+  border: 1px solid var(--solana-green);
+  border-radius: 8px;
+  text-align: left;
+  /* Animation for appearing */
+  animation: fadeIn 0.5s ease-out;
+}
+
+.success-message p {
+  margin: 0.5rem 0;
+  color: var(--solana-green);
+}
+
+.success-message .address-text {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: rgba(0,0,0,0.2);
+  padding: 0.5rem;
+  border-radius: 4px;
+  word-break: break-all;
+  color: #FFFFFF;
+}
+
+.success-message a {
+  color: var(--solana-green);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.success-message a:hover {
+    color: #FFFFFF;
+}
+
+/* Wallet Adapter Button Styling - More pronounced effects */
+.wallet-adapter-button {
+    transition: all 0.3s ease !important;
+}
+
+.wallet-adapter-button:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 20px rgba(153, 69, 255, 0.6) !important;
+}
+
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./node_modules/@solana/wallet-adapter-react-ui/styles.css ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -295,143 +498,5 @@
     border: none;
     border-radius: 8px;
     color: #fff;
-}
-
-/*!*************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css ***!
-  \*************************************************************************************************************************************************************************************************************************************************************/
-/* Reset and Base Styles */
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #f0f4f8;
-  color: #333;
-  line-height: 1.6;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* Main Container */
-.container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Header Styles */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.header-logo h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #1a202c;
-}
-
-/* Main Content Styles */
-.main-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  padding: 2rem;
-}
-
-/* Card Styles */
-.card {
-  background-color: #ffffff;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  text-align: center;
-  max-width: 500px;
-  width: 100%;
-}
-
-.card h2 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 2rem;
-  color: #1a202c;
-}
-
-.card p {
-  margin-bottom: 1.5rem;
-  color: #718096;
-}
-
-/* Action Section */
-.action-section {
-  margin-top: 1rem;
-}
-
-.action-button {
-  background: linear-gradient(90deg, #4f46e5, #8b5cf6);
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
-}
-
-.action-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
-}
-
-.action-button:disabled {
-  background: #cbd5e0;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
-.connect-prompt {
-  font-style: italic;
-  color: #a0aec0;
-}
-
-/* Success Message */
-.success-message {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background-color: #f0fff4;
-  border: 1px solid #9ae6b4;
-  border-radius: 8px;
-  text-align: left;
-}
-
-.success-message p {
-  margin: 0.5rem 0;
-  color: #2f855a;
-}
-
-.success-message .address-text {
-  font-family: 'Courier New', Courier, monospace;
-  background-color: #e6fffa;
-  padding: 0.5rem;
-  border-radius: 4px;
-  word-break: break-all;
-  color: #2c5282;
-}
-
-.success-message a {
-  color: #3182ce;
-  text-decoration: underline;
-  font-weight: 600;
 }
 
