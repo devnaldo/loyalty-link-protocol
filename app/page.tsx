@@ -17,12 +17,27 @@ interface SavedMint {
   createdAt: string;
 }
 
-// --- Component Definitions (Moved outside of Home for performance) ---
+// --- Component Definitions ---
 
-const InitialView = ({ handleCreateMint, isLoading, tokenName, setTokenName, savedMints, openModal }) => (
-  <>
-    <h2>Launch Your Tokenized Loyalty Program</h2>
-    <p>Create a unique rewards token for your brand on Solana, powered by the LoyaltyLink Protocol.</p>
+const AnimatedBackground = () => (
+  <div className="background-container">
+    <div className="floating-element"></div>
+    <div className="floating-element"></div>
+  </div>
+);
+
+const InitialView = ({ 
+  handleCreateMint, 
+  isLoading, 
+  tokenName, 
+  setTokenName, 
+  savedMints, 
+  openModal,
+  isTransitioning 
+}) => (
+  <div className={`card-content ${isTransitioning ? 'page-transition-enter-active' : ''}`}>
+    <h2>Powerful for Brands. Seamless for Users.</h2>
+    <p>Launch a tokenized loyalty program on the world's most performant blockchain.</p>
     <div className="action-section">
       <input 
         type="text" 
@@ -31,43 +46,75 @@ const InitialView = ({ handleCreateMint, isLoading, tokenName, setTokenName, sav
         value={tokenName} 
         onChange={(e) => setTokenName(e.target.value)} 
       />
-      <button onClick={handleCreateMint} disabled={isLoading || !tokenName} className="action-button" style={{ marginTop: '1rem' }}>
-        {isLoading ? "Creating..." : "🚀 Create New Rewards Token"}
+      <button onClick={handleCreateMint} disabled={isLoading || !tokenName} className="action-button">
+        {isLoading ? "Creating..." : "🚀 Create Rewards Token"}
       </button>
       {savedMints.length > 0 && (
         <button onClick={openModal} className="secondary-button">
-          🗂️ Use an Existing Token
+          🗂️ Manage Existing Tokens
         </button>
       )}
     </div>
-  </>
+  </div>
 );
 
-const MintingView = ({ activeMint, createTxSignature, recipientAddress, setRecipientAddress, mintQuantity, setMintQuantity, handleMintPoints, isLoading, mintTxSignature, handleGoToInitialView, openModal }) => (
-  <>
+const MintingView = ({ 
+  activeMint, 
+  createTxSignature, 
+  recipientAddress, 
+  setRecipientAddress, 
+  mintQuantity, 
+  setMintQuantity, 
+  handleMintPoints, 
+  isLoading, 
+  mintTxSignature, 
+  handleGoToInitialView, 
+  openModal,
+  isTransitioning 
+}) => (
+  <div className={`card-content ${isTransitioning ? 'page-transition-enter-active' : ''}`}>
     <div className="success-message">
       <p>✅ Program Loaded: <strong>{activeMint?.name}</strong></p>
-      <p><strong>Active Rewards Token Address:</strong></p>
+      <p><strong>Token Address:</strong></p>
       <p className="address-text">{activeMint?.address}</p>
-      {createTxSignature && <p><strong>Creation Transaction:</strong> <a href={`https://explorer.solana.com/tx/${createTxSignature}?cluster=devnet`} target="_blank" rel="noopener noreferrer">View on Explorer</a></p>}
+      {createTxSignature && <p><strong>Creation Tx:</strong> <a href={`https://explorer.solana.com/tx/${createTxSignature}?cluster=devnet`} target="_blank" rel="noopener noreferrer">View on Explorer</a></p>}
     </div>
     <div className="minting-section">
-      <h3>Mint & Distribute Points</h3>
-      <input type="text" placeholder="Recipient's Solana Address" className="input-field" value={recipientAddress} onChange={(e) => setRecipientAddress(e.target.value)} />
-      <input type="number" placeholder="Quantity" className="input-field" value={mintQuantity} onChange={(e) => setMintQuantity(Number(e.target.value))} />
+      <h3>Distribute Rewards</h3>
+      <input 
+        type="text" 
+        placeholder="Recipient's Solana Address" 
+        className="input-field" 
+        value={recipientAddress} 
+        onChange={(e) => setRecipientAddress(e.target.value)} 
+      />
+      <input 
+        type="number" 
+        placeholder="Quantity" 
+        className="input-field" 
+        value={mintQuantity} 
+        onChange={(e) => setMintQuantity(Number(e.target.value))} 
+      />
       <button onClick={handleMintPoints} disabled={isLoading || !recipientAddress || mintQuantity <= 0} className="action-button">
-        {isLoading ? "Minting..." : "✨ Mint & Send Points"}
+        {isLoading ? "Sending..." : "✨ Mint & Send Tokens"}
       </button>
       {mintTxSignature && (
         <div className="success-message">
-            <p>✅ Points Sent!</p>
+            <p>✅ Tokens Sent!</p>
             <p><strong>Transaction:</strong> <a href={`https://explorer.solana.com/tx/${mintTxSignature}?cluster=devnet`} target="_blank" rel="noopener noreferrer">View on Explorer</a></p>
         </div>
       )}
-      <button onClick={handleGoToInitialView} className="action-button" style={{ marginTop: '1.5rem' }}>🚀 Create Another Token</button>
+      <button onClick={handleGoToInitialView} className="action-button" style={{ marginTop: '1.5rem' }}>🚀 Create a New Token</button>
       <button onClick={openModal} className="secondary-button">🗂️ Select a Different Token</button>
     </div>
-  </>
+  </div>
+);
+
+const WelcomeView = ({ isTransitioning }) => (
+  <div className={`card-content ${isTransitioning ? 'page-transition-enter-active' : ''}`}>
+    <h2>Welcome to SolRewards</h2>
+    <p className="connect-prompt">The open protocol for tokenized loyalty on Solana.</p>
+  </div>
 );
 
 const ProgramsModal = ({ savedMints, handleSelectMint, closeModal }) => (
@@ -89,12 +136,12 @@ const ProgramsModal = ({ savedMints, handleSelectMint, closeModal }) => (
   </div>
 );
 
-
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const [activeMint, setActiveMint] = useState<SavedMint | null>(null);
   const [savedMints, setSavedMints] = useState<SavedMint[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
   const [tokenName, setTokenName] = useState('');
   const [createTxSignature, setCreateTxSignature] = useState<string | null>(null);
@@ -111,6 +158,22 @@ export default function Home() {
     const loadedMints = JSON.parse(localStorage.getItem("solrewards-mints") || "[]");
     setSavedMints(loadedMints);
   }, []);
+
+  // Clear form fields when switching views
+  const clearFormFields = () => {
+    setRecipientAddress('');
+    setMintQuantity(100);
+    setMintTxSignature(null);
+  };
+
+  // Enhanced transition function
+  const triggerPageTransition = (callback: () => void) => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      callback();
+      setTimeout(() => setIsTransitioning(false), 100);
+    }, 300);
+  };
 
   const handleCreateMint = async () => {
     if (!wallet.publicKey || !wallet.signTransaction) return alert("Please connect your wallet!");
@@ -144,8 +207,11 @@ export default function Home() {
       setSavedMints(updatedMints);
       localStorage.setItem("solrewards-mints", JSON.stringify(updatedMints));
 
-      setActiveMint(newMintData);
-      setCreateTxSignature(signature);
+      triggerPageTransition(() => {
+        setActiveMint(newMintData);
+        setCreateTxSignature(signature);
+        clearFormFields();
+      });
     } catch (error) {
       console.error("Error creating mint:", error);
       alert("Failed to create loyalty program. See console for details.");
@@ -205,64 +271,91 @@ export default function Home() {
   };
 
   const handleSelectMint = (mint: SavedMint) => {
-    setActiveMint(mint);
-    setIsModalOpen(false);
-    setCreateTxSignature(null);
-    setMintTxSignature(null);
+    triggerPageTransition(() => {
+      setActiveMint(mint);
+      setIsModalOpen(false);
+      setCreateTxSignature(null);
+      clearFormFields();
+    });
   };
 
   const handleGoToInitialView = () => {
-    setActiveMint(null);
-    setCreateTxSignature(null);
-    setMintTxSignature(null);
-  }
+    triggerPageTransition(() => {
+      setActiveMint(null);
+      setCreateTxSignature(null);
+      clearFormFields();
+      setTokenName(''); // Also clear the token name when going back
+    });
+  };
+
+  const handleLogoClick = () => {
+    if (activeMint) {
+      triggerPageTransition(() => {
+        setActiveMint(null);
+        setCreateTxSignature(null);
+        clearFormFields();
+        setTokenName('');
+      });
+    }
+  };
 
   return (
-    <div className="container">
-      <header className="header">
-        <div className="header-logo"><h1>SolRewards</h1></div>
-        <div className="header-wallet">{isClient && <WalletMultiButton />}</div>
-      </header>
-      <main className="main-content">
-        <div className="card">
-          {wallet.publicKey ? (
-            activeMint ? 
-            <MintingView 
-              activeMint={activeMint}
-              createTxSignature={createTxSignature}
-              recipientAddress={recipientAddress}
-              setRecipientAddress={setRecipientAddress}
-              mintQuantity={mintQuantity}
-              setMintQuantity={setMintQuantity}
-              handleMintPoints={handleMintPoints}
-              isLoading={isLoading}
-              mintTxSignature={mintTxSignature}
-              handleGoToInitialView={handleGoToInitialView}
-              openModal={() => setIsModalOpen(true)}
-            /> : 
-            <InitialView 
-              handleCreateMint={handleCreateMint}
-              isLoading={isLoading}
-              tokenName={tokenName}
-              setTokenName={setTokenName}
+    <>
+      <AnimatedBackground />
+      <div className="container">
+        <header className="header">
+          <div className="header-left">
+            <div className="header-logo" onClick={handleLogoClick}>
+              <h1>SolRewards</h1>
+            </div>
+            <nav className="nav-links">
+              <a href="#" className="nav-link">About</a>
+              <a href="#" className="nav-link">How it Works</a>
+              <a href="https://github.com/your-username/loyalty-link-protocol" target="_blank" rel="noopener noreferrer" className="nav-link">Docs</a>
+            </nav>
+          </div>
+          <div className="header-wallet">{isClient && <WalletMultiButton />}</div>
+        </header>
+        <main className="main-content">
+          <div className="card">
+            {wallet.publicKey ? (
+              activeMint ? 
+              <MintingView 
+                activeMint={activeMint}
+                createTxSignature={createTxSignature}
+                recipientAddress={recipientAddress}
+                setRecipientAddress={setRecipientAddress}
+                mintQuantity={mintQuantity}
+                setMintQuantity={setMintQuantity}
+                handleMintPoints={handleMintPoints}
+                isLoading={isLoading}
+                mintTxSignature={mintTxSignature}
+                handleGoToInitialView={handleGoToInitialView}
+                openModal={() => setIsModalOpen(true)}
+                isTransitioning={isTransitioning}
+              /> : 
+              <InitialView 
+                handleCreateMint={handleCreateMint}
+                isLoading={isLoading}
+                tokenName={tokenName}
+                setTokenName={setTokenName}
+                savedMints={savedMints}
+                openModal={() => setIsModalOpen(true)}
+                isTransitioning={isTransitioning}
+              />
+            ) : (
+              <WelcomeView isTransitioning={isTransitioning} />
+            )}
+          </div>
+          {isClient && isModalOpen && 
+            <ProgramsModal 
               savedMints={savedMints}
-              openModal={() => setIsModalOpen(true)}
+              handleSelectMint={handleSelectMint}
+              closeModal={() => setIsModalOpen(false)}
             />
-          ) : (
-            <>
-              <h2>Welcome to SolRewards</h2>
-              <p className="connect-prompt">Please connect your wallet to begin.</p>
-            </>
-          )}
-        </div>
-        {isClient && isModalOpen && 
-          <ProgramsModal 
-            savedMints={savedMints}
-            handleSelectMint={handleSelectMint}
-            closeModal={() => setIsModalOpen(false)}
-          />
-        }
-      </main>
-    </div>
+          }
+        </main>
+      </div>
+    </>
   );
 }
