@@ -104,7 +104,13 @@ body, html {
   color: var(--text-secondary);
 }
 
-/* Action Button */
+/* Action Section & Buttons */
+.action-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .action-button {
   background: linear-gradient(90deg, var(--solana-purple), var(--solana-green));
   color: black;
@@ -137,9 +143,50 @@ body, html {
   transform: none;
 }
 
+.secondary-button {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--card-border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 100%;
+}
+
+.secondary-button:hover {
+  background-color: var(--card-border);
+  color: var(--text-primary);
+}
+
 .connect-prompt {
   font-style: italic;
   color: var(--text-secondary);
+}
+
+/* NEW General Input Field Styles */
+.input-field {
+  background-color: var(--input-background);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.input-field::placeholder {
+  color: var(--text-secondary);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--solana-green);
+  box-shadow: 0 0 10px rgba(20, 241, 149, 0.5);
 }
 
 /* Success Message */
@@ -206,46 +253,7 @@ body, html {
   color: var(--text-primary);
 }
 
-.minting-section .input-field {
-  background-color: var(--input-background);
-  border: 1px solid var(--card-border);
-  color: var(--text-primary);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  width: 100%;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.minting-section .input-field::placeholder {
-  color: var(--text-secondary);
-}
-
-.minting-section .input-field:focus {
-  outline: none;
-  border-color: var(--solana-green);
-  box-shadow: 0 0 10px rgba(20, 241, 149, 0.5);
-}
-
-/* NEW STYLES for Modal and Secondary Button */
-.secondary-button {
-  background-color: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--card-border);
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  margin-top: 1rem;
-}
-
-.secondary-button:hover {
-  background-color: var(--card-border);
-  color: var(--text-primary);
-}
-
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
