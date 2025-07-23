@@ -93,8 +93,8 @@ export const useSolanaOperations = () => {
             data: Buffer.concat([discriminator, quantityBuffer]),
         }));
 
-        const latestBlockhash = await connection.getLatestBlockhash();
-        const transaction = new Transaction({ recentBlockhash: latestBlockhash.blockhash, feePayer: wallet.publicKey }).add(...instructions);
+        const latestBlockhash = await connection.getLatestBlockhash('finalized');
+        const transaction = new Transaction({ feePayer: wallet.publicKey, recentBlockhash: latestBlockhash.blockhash }).add(...instructions);
         
         const signedTransaction = await wallet.signTransaction(transaction);
         const signature = await connection.sendRawTransaction(signedTransaction.serialize());
