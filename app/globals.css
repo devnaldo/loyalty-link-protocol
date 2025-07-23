@@ -690,3 +690,12 @@ body, html {
     font-size: 2rem;
   }
 }
+.github-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.github-icon {
+  font-size: 18px;
+}
