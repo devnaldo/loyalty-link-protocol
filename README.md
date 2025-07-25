@@ -1,4 +1,4 @@
-# 🌟 LoyaltyLink Protocol
+# 🌟 LoyaltyLink Protocol (SolRewards)
 A Unified Ledger for Customer Loyalty on Solana, Built for the Finternet.
 ## 1. The Problem: The Silo-ization of Customer Loyalty
 Today, customer loyalty is broken. Value is trapped and fragmented across countless disconnected systems.
