@@ -69,9 +69,9 @@ export default function Home() {
     }
   };
 
-  const handleMintPoints = () => {
+  const handleMintPoints = async () => {
     if (activeMint) {
-      mintPoints(activeMint, recipientAddress, mintQuantity);
+      await mintPoints(activeMint, recipientAddress, mintQuantity);
     }
   };
 
