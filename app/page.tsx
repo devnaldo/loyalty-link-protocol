@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { SavedMint } from '../types';
 import { AnimatedBackground } from '../components/ui/AnimatedBackground';
@@ -16,6 +16,7 @@ export default function Home() {
   const [activeMint, setActiveMint] = useState<SavedMint | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const [tokenName, setTokenName] = useState('');
   const [recipientAddress, setRecipientAddress] = useState('');
@@ -30,33 +31,46 @@ export default function Home() {
     mintTxSignature,
     setCreateTxSignature,
     setMintTxSignature,
-    savedMints // Get savedMints from Zustand store
+    savedMints
   } = useSolanaOperations();
 
   useEffect(() => {
     setIsClient(true);
-    // No more localStorage loading - Zustand handles this automatically!
   }, []);
 
+  // Clear error after 5 seconds
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   // Clear form fields when switching views
-  const clearFormFields = () => {
+  const clearFormFields = useCallback(() => {
     setRecipientAddress('');
     setMintQuantity(100);
     setMintTxSignature(null);
-  };
+    setError(null);
+  }, [setMintTxSignature]);
 
   // Enhanced transition function
-  const triggerPageTransition = (callback: () => void) => {
+  const triggerPageTransition = useCallback((callback: () => void) => {
     setIsTransitioning(true);
     setTimeout(() => {
       callback();
       setTimeout(() => setIsTransitioning(false), 100);
     }, 300);
-  };
+  }, []);
 
-  const handleCreateMint = async () => {
+  const handleCreateMint = useCallback(async () => {
+    if (!tokenName.trim()) {
+      setError("Please enter a token name");
+      return;
+    }
+
     try {
-      // Updated call - no more savedMints and setSavedMints parameters
+      setError(null);
       const newMintData = await createMint(tokenName);
       if (newMintData) {
         triggerPageTransition(() => {
@@ -64,36 +78,54 @@ export default function Home() {
           clearFormFields();
         });
       }
-    } catch (error) {
-      // Error handling is done in the hook
+    } catch (error: any) {
+      setError(error.message || "Failed to create mint");
     }
-  };
+  }, [tokenName, createMint, triggerPageTransition, clearFormFields]);
 
-  const handleMintPoints = async () => {
-    if (activeMint) {
+  const handleMintPoints = useCallback(async () => {
+    if (!activeMint) {
+      setError("No active mint selected");
+      return;
+    }
+
+    if (!recipientAddress.trim()) {
+      setError("Please enter a recipient address");
+      return;
+    }
+
+    if (mintQuantity <= 0) {
+      setError("Please enter a valid mint quantity");
+      return;
+    }
+
+    try {
+      setError(null);
       await mintPoints(activeMint, recipientAddress, mintQuantity);
+    } catch (error: any) {
+      setError(error.message || "Failed to mint points");
     }
-  };
+  }, [activeMint, recipientAddress, mintQuantity, mintPoints]);
 
-  const handleSelectMint = (mint: SavedMint) => {
+  const handleSelectMint = useCallback((mint: SavedMint) => {
     triggerPageTransition(() => {
       setActiveMint(mint);
       setIsModalOpen(false);
       setCreateTxSignature(null);
       clearFormFields();
     });
-  };
+  }, [triggerPageTransition, setCreateTxSignature, clearFormFields]);
 
-  const handleGoToInitialView = () => {
+  const handleGoToInitialView = useCallback(() => {
     triggerPageTransition(() => {
       setActiveMint(null);
       setCreateTxSignature(null);
       clearFormFields();
-      setTokenName(''); // Also clear the token name when going back
+      setTokenName('');
     });
-  };
+  }, [triggerPageTransition, setCreateTxSignature, clearFormFields]);
 
-  const handleLogoClick = () => {
+  const handleLogoClick = useCallback(() => {
     if (activeMint) {
       triggerPageTransition(() => {
         setActiveMint(null);
@@ -102,7 +134,33 @@ export default function Home() {
         setTokenName('');
       });
     }
-  };
+  }, [activeMint, triggerPageTransition, setCreateTxSignature, clearFormFields]);
+
+  const handleOpenModal = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  // Don't render until client-side hydration is complete
+  if (!isClient) {
+    return (
+      <>
+        <AnimatedBackground />
+        <div className="container">
+          <div className="main-content">
+            <div className="card">
+              <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -111,6 +169,21 @@ export default function Home() {
         <Header isClient={isClient} handleLogoClick={handleLogoClick} />
         <main className="main-content">
           <div className="card">
+            {/* Error Display */}
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                <div className="flex justify-between items-center">
+                  <span>{error}</span>
+                  <button
+                    onClick={() => setError(null)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+            )}
+
             {wallet.publicKey ? (
               activeMint ? 
               <MintingView 
@@ -124,7 +197,7 @@ export default function Home() {
                 isLoading={isLoading}
                 mintTxSignature={mintTxSignature}
                 handleGoToInitialView={handleGoToInitialView}
-                openModal={() => setIsModalOpen(true)}
+                openModal={handleOpenModal}
                 isTransitioning={isTransitioning}
               /> : 
               <InitialView 
@@ -132,19 +205,19 @@ export default function Home() {
                 isLoading={isLoading}
                 tokenName={tokenName}
                 setTokenName={setTokenName}
-                savedMints={savedMints} // Now comes from Zustand
-                openModal={() => setIsModalOpen(true)}
+                savedMints={savedMints}
+                openModal={handleOpenModal}
                 isTransitioning={isTransitioning}
               />
             ) : (
               <WelcomeView isTransitioning={isTransitioning} />
             )}
           </div>
-          {isClient && isModalOpen && 
+          {isModalOpen && 
             <ProgramsModal 
-              savedMints={savedMints} // Now comes from Zustand
+              savedMints={savedMints}
               handleSelectMint={handleSelectMint}
-              closeModal={() => setIsModalOpen(false)}
+              closeModal={handleCloseModal}
             />
           }
         </main>

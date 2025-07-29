@@ -3,7 +3,6 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { web3 } from "@coral-xyz/anchor";
 import { Transaction, SystemProgram, TransactionInstruction } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from "@solana/spl-token";
-import * as sha256 from "js-sha256";
 import { SavedMint } from '../../types';
 import { useSolanaStore } from '../../store/useSolanaStore';
 
@@ -27,25 +26,42 @@ const validateMintQuantity = (quantity: number): boolean => {
   return Number.isInteger(quantity) && quantity > 0 && quantity <= 1_000_000;
 };
 
+// Simple SHA-256 implementation for browser compatibility
+const sha256 = async (message: string): Promise<Uint8Array> => {
+  if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
+    // Browser environment
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer);
+    return new Uint8Array(hashBuffer);
+  } else {
+    // Fallback for server-side rendering
+    const { createHash } = await import('crypto');
+    return new Uint8Array(createHash('sha256').update(message).digest());
+  }
+};
+
 // Secure error handling - don't expose internal details
 const handleSecureError = (error: any, userMessage: string) => {
-  // TEMPORARY: Log full error for debugging
-  console.error(`Operation failed: ${userMessage}`);
-  console.error('Full error details:', error);
-  console.error('Error message:', error?.message);
-  console.error('Error stack:', error?.stack);
+  // Log errors for debugging (only in development)
+  if (process.env.NODE_ENV === 'development') {
+    console.error(`Operation failed: ${userMessage}`);
+    console.error('Full error details:', error);
+  }
   
-  // Don't expose internal error details to users
+  // Provide user-friendly error messages
   if (error?.message?.includes('insufficient funds')) {
     throw new Error('Insufficient SOL for transaction fees');
   } else if (error?.message?.includes('blockhash not found')) {
     throw new Error('Network congestion. Please try again.');
   } else if (error?.message?.includes('Simulation failed')) {
-    throw new Error(`Transaction simulation failed: ${error.message}`);
+    throw new Error('Transaction simulation failed. Please check your inputs.');
   } else if (error?.message?.includes('Invalid account')) {
     throw new Error('Invalid account provided to program');
+  } else if (error?.message?.includes('User rejected')) {
+    throw new Error('Transaction was cancelled');
   } else {
-    throw new Error(`${userMessage}: ${error?.message || 'Unknown error'}`);
+    // Generic error message - don't expose internal details
+    throw new Error(userMessage + '. Please try again.');
   }
 };
 
@@ -57,8 +73,10 @@ export const useSolanaOperations = () => {
   const { connection } = useConnection();
   const wallet = useWallet();
 
-  // Zustand store hooks with fallback
-  const { savedMints = [], addMint } = useSolanaStore() || { savedMints: [], addMint: () => {} };
+  // Zustand store hooks with proper error handling
+  const solanaStore = useSolanaStore();
+  const savedMints = solanaStore?.savedMints || [];
+  const addMint = solanaStore?.addMint || (() => {});
 
   const handleCreateMint = async (tokenName: string): Promise<SavedMint | undefined> => {
     // Security: Validate inputs
@@ -71,11 +89,15 @@ export const useSolanaOperations = () => {
     }
 
     setIsLoading(true);
+    setCreateTxSignature(null);
 
     try {
       const newMint = web3.Keypair.generate();
       const instructionName = "create_loyalty_mint";
-      const discriminator = Buffer.from(sha256(`global:${instructionName}`)).slice(0, 8);
+      
+      // Use browser-compatible SHA-256
+      const hash = await sha256(`global:${instructionName}`);
+      const discriminator = hash.slice(0, 8);
       
       const instruction = new web3.TransactionInstruction({
         keys: [
@@ -85,7 +107,7 @@ export const useSolanaOperations = () => {
           { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
         ],
         programId,
-        data: discriminator,
+        data: Buffer.from(discriminator),
       });
 
       const latestBlockhash = await connection.getLatestBlockhash('finalized');
@@ -96,7 +118,10 @@ export const useSolanaOperations = () => {
       
       transaction.partialSign(newMint);
       const signedTransaction = await wallet.signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+      const signature = await connection.sendRawTransaction(signedTransaction.serialize(), {
+        skipPreflight: false,
+        preflightCommitment: 'processed'
+      });
       
       // Security: Wait for confirmation before proceeding
       await connection.confirmTransaction({ 
@@ -111,15 +136,14 @@ export const useSolanaOperations = () => {
         createdAt: new Date().toISOString() 
       };
       
-      // Use Zustand store instead of localStorage
+      // Use Zustand store
       addMint(newMintData);
-
       setCreateTxSignature(signature);
-      return newMintData; // FIXED: This return was missing!
+      return newMintData;
       
     } catch (error) {
       handleSecureError(error, "Failed to create loyalty program");
-      return undefined; // FIXED: Added explicit return for error case
+      return undefined;
     } finally {
       setIsLoading(false);
     }
@@ -162,7 +186,9 @@ export const useSolanaOperations = () => {
       }
       
       const instructionName = "mint_loyalty_points";
-      const discriminator = Buffer.from(sha256(`global:${instructionName}`)).slice(0, 8);
+      const hash = await sha256(`global:${instructionName}`);
+      const discriminator = hash.slice(0, 8);
+      
       const quantityBuffer = Buffer.alloc(8);
       quantityBuffer.writeBigUInt64LE(BigInt(mintQuantity));
 
@@ -174,7 +200,7 @@ export const useSolanaOperations = () => {
           { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
         ],
         programId,
-        data: Buffer.concat([discriminator, quantityBuffer]),
+        data: Buffer.concat([Buffer.from(discriminator), quantityBuffer]),
       }));
 
       const latestBlockhash = await connection.getLatestBlockhash('finalized');
@@ -184,7 +210,10 @@ export const useSolanaOperations = () => {
       }).add(...instructions);
       
       const signedTransaction = await wallet.signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+      const signature = await connection.sendRawTransaction(signedTransaction.serialize(), {
+        skipPreflight: false,
+        preflightCommitment: 'processed'
+      });
       
       // Security: Wait for confirmation
       await connection.confirmTransaction({ 
@@ -209,6 +238,6 @@ export const useSolanaOperations = () => {
     mintTxSignature,
     setCreateTxSignature,
     setMintTxSignature,
-    savedMints // Export savedMints from store
+    savedMints
   };
 };
