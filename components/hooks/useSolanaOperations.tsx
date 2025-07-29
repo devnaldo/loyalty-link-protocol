@@ -28,15 +28,23 @@ const validateMintQuantity = (quantity: number): boolean => {
 
 // Simple SHA-256 implementation for browser compatibility
 const sha256 = async (message: string): Promise<Uint8Array> => {
-  if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
+  // Check if we're in a browser environment
+  if (typeof globalThis !== 'undefined' && 
+      globalThis.crypto && 
+      globalThis.crypto.subtle) {
     // Browser environment
     const msgBuffer = new TextEncoder().encode(message);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', msgBuffer);
     return new Uint8Array(hashBuffer);
   } else {
-    // Fallback for server-side rendering
-    const { createHash } = await import('crypto');
-    return new Uint8Array(createHash('sha256').update(message).digest());
+    // Node.js environment (SSR/build time)
+    try {
+      const crypto = await import('crypto');
+      return new Uint8Array(crypto.createHash('sha256').update(message).digest());
+    } catch (error) {
+      // Fallback if crypto is not available
+      throw new Error('Crypto functionality not available in this environment');
+    }
   }
 };
 
