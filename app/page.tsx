@@ -14,7 +14,6 @@ import { useSolanaOperations } from '../components/hooks/useSolanaOperations';
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const [activeMint, setActiveMint] = useState<SavedMint | null>(null);
-  const [savedMints, setSavedMints] = useState<SavedMint[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   
@@ -30,13 +29,13 @@ export default function Home() {
     createTxSignature,
     mintTxSignature,
     setCreateTxSignature,
-    setMintTxSignature
+    setMintTxSignature,
+    savedMints // Get savedMints from Zustand store
   } = useSolanaOperations();
 
   useEffect(() => {
     setIsClient(true);
-    const loadedMints = JSON.parse(localStorage.getItem("solrewards-mints") || "[]");
-    setSavedMints(loadedMints);
+    // No more localStorage loading - Zustand handles this automatically!
   }, []);
 
   // Clear form fields when switching views
@@ -57,7 +56,8 @@ export default function Home() {
 
   const handleCreateMint = async () => {
     try {
-      const newMintData = await createMint(tokenName, savedMints, setSavedMints);
+      // Updated call - no more savedMints and setSavedMints parameters
+      const newMintData = await createMint(tokenName);
       if (newMintData) {
         triggerPageTransition(() => {
           setActiveMint(newMintData);
@@ -132,7 +132,7 @@ export default function Home() {
                 isLoading={isLoading}
                 tokenName={tokenName}
                 setTokenName={setTokenName}
-                savedMints={savedMints}
+                savedMints={savedMints} // Now comes from Zustand
                 openModal={() => setIsModalOpen(true)}
                 isTransitioning={isTransitioning}
               />
@@ -142,7 +142,7 @@ export default function Home() {
           </div>
           {isClient && isModalOpen && 
             <ProgramsModal 
-              savedMints={savedMints}
+              savedMints={savedMints} // Now comes from Zustand
               handleSelectMint={handleSelectMint}
               closeModal={() => setIsModalOpen(false)}
             />

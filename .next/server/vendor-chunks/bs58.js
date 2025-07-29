@@ -1,4 +1,3 @@
-"use strict";
 /*
  * ATTENTION: An "eval-source-map" devtool has been used.
  * This devtool is neither made for production nor for readable output files.
@@ -11,13 +10,13 @@ exports.id = "vendor-chunks/bs58";
 exports.ids = ["vendor-chunks/bs58"];
 exports.modules = {
 
-/***/ "(ssr)/./node_modules/bs58/src/esm/index.js":
-/*!********************************************!*\
-  !*** ./node_modules/bs58/src/esm/index.js ***!
-  \********************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+/***/ "(ssr)/./node_modules/bs58/index.js":
+/*!************************************!*\
+  !*** ./node_modules/bs58/index.js ***!
+  \************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var base_x__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! base-x */ \"(ssr)/./node_modules/base-x/src/esm/index.js\");\n\nvar ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,base_x__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(ALPHABET));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9ub2RlX21vZHVsZXMvYnM1OC9zcmMvZXNtL2luZGV4LmpzIiwibWFwcGluZ3MiOiI7Ozs7O0FBQTJCO0FBQzNCO0FBQ0EsaUVBQWUsa0RBQUssVUFBVSxFQUFDIiwic291cmNlcyI6WyIvaG9tZS9kZXZuYWxkby9yZXBvcy9sb3lhbHR5LWxpbmstcHJvdG9jb2wvbm9kZV9tb2R1bGVzL2JzNTgvc3JjL2VzbS9pbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgYmFzZXggZnJvbSAnYmFzZS14JztcbnZhciBBTFBIQUJFVCA9ICcxMjM0NTY3ODlBQkNERUZHSEpLTE1OUFFSU1RVVldYWVphYmNkZWZnaGlqa21ub3BxcnN0dXZ3eHl6JztcbmV4cG9ydCBkZWZhdWx0IGJhc2V4KEFMUEhBQkVUKTtcbiJdLCJuYW1lcyI6W10sImlnbm9yZUxpc3QiOlswXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(ssr)/./node_modules/bs58/src/esm/index.js\n");
+eval("var basex = __webpack_require__(/*! base-x */ \"(ssr)/./node_modules/base-x/src/index.js\")\nvar ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'\n\nmodule.exports = basex(ALPHABET)\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9ub2RlX21vZHVsZXMvYnM1OC9pbmRleC5qcyIsIm1hcHBpbmdzIjoiQUFBQSxZQUFZLG1CQUFPLENBQUMsd0RBQVE7QUFDNUI7O0FBRUEiLCJzb3VyY2VzIjpbIi9ob21lL2Rldm5hbGRvL3JlcG9zL2xveWFsdHktbGluay1wcm90b2NvbC9ub2RlX21vZHVsZXMvYnM1OC9pbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgYmFzZXggPSByZXF1aXJlKCdiYXNlLXgnKVxudmFyIEFMUEhBQkVUID0gJzEyMzQ1Njc4OUFCQ0RFRkdISktMTU5QUVJTVFVWV1hZWmFiY2RlZmdoaWprbW5vcHFyc3R1dnd4eXonXG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZXgoQUxQSEFCRVQpXG4iXSwibmFtZXMiOltdLCJpZ25vcmVMaXN0IjpbMF0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(ssr)/./node_modules/bs58/index.js\n");
 
 /***/ })
 
