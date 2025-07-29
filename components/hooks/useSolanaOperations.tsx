@@ -3,7 +3,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { web3 } from "@coral-xyz/anchor";
 import { Transaction, SystemProgram, TransactionInstruction } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from "@solana/spl-token";
-import sha256 from "js-sha256";
+import * as sha256 from "js-sha256";
 import { SavedMint } from '../../types';
 import { useSolanaStore } from '../../store/useSolanaStore';
 
@@ -75,7 +75,7 @@ export const useSolanaOperations = () => {
     try {
       const newMint = web3.Keypair.generate();
       const instructionName = "create_loyalty_mint";
-      const discriminator = Buffer.from(sha256.digest(`global:${instructionName}`)).slice(0, 8);
+      const discriminator = Buffer.from(sha256(`global:${instructionName}`)).slice(0, 8);
       
       const instruction = new web3.TransactionInstruction({
         keys: [
@@ -162,7 +162,7 @@ export const useSolanaOperations = () => {
       }
       
       const instructionName = "mint_loyalty_points";
-      const discriminator = Buffer.from(sha256.digest(`global:${instructionName}`)).slice(0, 8);
+      const discriminator = Buffer.from(sha256(`global:${instructionName}`)).slice(0, 8);
       const quantityBuffer = Buffer.alloc(8);
       quantityBuffer.writeBigUInt64LE(BigInt(mintQuantity));
 
