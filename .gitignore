@@ -5,3 +5,18 @@ target
 node_modules
 test-ledger
 .yarn
+.next/
+out/
+.env
+.env.local
+.env.production
+.env.development
+.vercel
+echo "
+.next/
+out/
+.env
+.env.local
+.env.production
+.env.development
+.vercel" >> .gitignore
