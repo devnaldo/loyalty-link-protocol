@@ -34,7 +34,7 @@ const sha256 = async (message: string): Promise<Uint8Array> => {
   if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
     // Browser environment
     const msgBuffer = new TextEncoder().encode(message);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer as BufferSource);
     return new Uint8Array(hashBuffer);
   } else {
     // Node.js environment (SSR/build time) - use a simple fallback
