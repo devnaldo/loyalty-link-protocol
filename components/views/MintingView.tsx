@@ -1,3 +1,5 @@
+"use client";
+
 import { MintingViewProps } from '../../types';
 
 export const MintingView = ({ 

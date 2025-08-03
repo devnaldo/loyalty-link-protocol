@@ -1,3 +1,5 @@
+"use client";
+
 import { ViewProps } from '../../types';
 
 export const WelcomeView = ({ isTransitioning }: ViewProps) => (

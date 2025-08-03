@@ -1,3 +1,5 @@
+"use client";
+
 import { ProgramsModalProps } from '../../types';
 
 export const ProgramsModal = ({ savedMints, handleSelectMint, closeModal }: ProgramsModalProps) => (

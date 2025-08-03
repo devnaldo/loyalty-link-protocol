@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 
 interface AboutModalProps {
@@ -140,7 +142,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               </div>
             </div>
             <p className="tech-description">
-              Leveraging Solana's high throughput and low fees to handle the high volume of micro-transactions that a successful loyalty ecosystem requires.
+              Leveraging Solana&apos;s high throughput and low fees to handle the high volume of micro-transactions that a successful loyalty ecosystem requires.
             </p>
           </div>
 

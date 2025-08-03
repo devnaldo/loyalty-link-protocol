@@ -1,3 +1,5 @@
+"use client";
+
 import { InitialViewProps } from '../../types';
 
 export const InitialView = ({ 
@@ -11,7 +13,7 @@ export const InitialView = ({
 }: InitialViewProps) => (
   <div className={`card-content ${isTransitioning ? 'page-transition-enter-active' : ''}`}>
     <h2>Powerful for Brands. Seamless for Users.</h2>
-    <p>Launch a tokenized loyalty program on the world's most performant blockchain.</p>
+    <p>Launch a tokenized loyalty program on the world&apos;s most performant blockchain.</p>
     <div className="action-section">
       <input 
         type="text" 
