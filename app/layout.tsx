@@ -3,7 +3,7 @@ import ClientWalletProvider from "./WalletProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LoyaltyLink",
+  title: "SolRewards",
   description: "LoyaltyLink Merchant Portal",
 };
 
