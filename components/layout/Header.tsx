@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { HeaderProps } from '../../types';
 import { AboutModal } from '../ui/AboutModal';
+import { HowItWorksModal } from '../ui/HowItWorksModal'; // This import needs to resolve correctly
 
 // GitHub icon component to avoid import issues
 const GitHubIcon = () => (
@@ -19,10 +20,16 @@ const GitHubIcon = () => (
 
 export const Header = ({ isClient, handleLogoClick }: HeaderProps) => {
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isHowItWorksModalOpen, setIsHowItWorksModalOpen] = useState(false);
 
   const handleAboutClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsAboutModalOpen(true);
+  };
+
+  const handleHowItWorksClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsHowItWorksModalOpen(true);
   };
 
   return (
@@ -39,7 +46,12 @@ export const Header = ({ isClient, handleLogoClick }: HeaderProps) => {
             >
               About
             </button>
-            <a href="#" className="nav-link">How it Works</a>
+            <button 
+              onClick={handleHowItWorksClick} 
+              className="nav-link nav-button"
+            >
+              How it Works
+            </button>
             <a 
               href="https://github.com/devnaldo/loyalty-link-protocol/blob/main/README.md" 
               target="_blank" 
@@ -67,6 +79,11 @@ export const Header = ({ isClient, handleLogoClick }: HeaderProps) => {
       <AboutModal 
         isOpen={isAboutModalOpen} 
         onClose={() => setIsAboutModalOpen(false)} 
+      />
+
+      <HowItWorksModal 
+        isOpen={isHowItWorksModalOpen} 
+        onClose={() => setIsHowItWorksModalOpen(false)} 
       />
     </>
   );
